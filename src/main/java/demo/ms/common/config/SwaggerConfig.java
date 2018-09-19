@@ -6,11 +6,15 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
-import springfox.documentation.builders.*;
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger.web.ApiKeyVehicle;
+import springfox.documentation.swagger.web.SecurityConfiguration;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Arrays;
@@ -61,6 +65,13 @@ public class SwaggerConfig {
                 .build();
     }
 
+    @Bean
+    public SecurityConfiguration security() {
+        SecurityConfiguration securityConfiguration = new SecurityConfiguration(clientId,clientSecret,"","","",
+                ApiKeyVehicle.HEADER,""," ");
+        return securityConfiguration;
+    }
+
     private SecurityContext securityContext() {
         return SecurityContext.builder()
                 .securityReferences(defaultAuth())
@@ -76,7 +87,7 @@ public class SwaggerConfig {
         authorizationScopes[0] = readScope;
         authorizationScopes[1] = writeScope;
         authorizationScopes[2] = adminScope;
-        return Arrays.asList(new SecurityReference("oauth2", authorizationScopes));
+        return Arrays.asList(new SecurityReference("oauth2schema", authorizationScopes));
     }
 
     private List<AuthorizationScope> scopes(){
@@ -91,16 +102,13 @@ public class SwaggerConfig {
         String TOKEN_REQUEST_URL = oAuthBaseUri+"/oauth/authorize";
         String TOKEN_URL = oAuthBaseUri+"/oauth/token";
 
-        GrantType grantType = new AuthorizationCodeGrantBuilder()
-                .tokenEndpoint(new TokenEndpoint(TOKEN_URL, "access_token"))
-                .tokenRequestEndpoint(new TokenRequestEndpoint(TOKEN_REQUEST_URL, clientId, clientSecret ))
-                .build();
+//        GrantType grantType = new AuthorizationCodeGrantBuilder()
+//                .tokenEndpoint(new TokenEndpoint(TOKEN_URL, "access_token"))
+//                .tokenRequestEndpoint(new TokenRequestEndpoint(TOKEN_REQUEST_URL, clientId, clientSecret ))
+//                .build();
 
-        SecurityScheme oauth = new OAuthBuilder().name("oauth2")
-                .grantTypes(Arrays.asList(grantType))
-                .scopes(scopes())
-                .build();
+        GrantType grantType = new ResourceOwnerPasswordCredentialsGrant(TOKEN_URL);
 
-        return oauth;
+        return new OAuth("oauth2schema",scopes(),Arrays.asList(grantType));
     }
 }

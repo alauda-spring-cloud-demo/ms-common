@@ -16,7 +16,7 @@ import java.io.IOException;
 @Configuration
 public class TokenConfig {
 
-    @Value("${poker.resource-server.public-key}")
+    @Value("${security.oauth2.resource.jwt.keyValue}")
     private String publicKey;
 
     @Bean
