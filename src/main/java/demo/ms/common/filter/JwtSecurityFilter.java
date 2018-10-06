@@ -2,8 +2,10 @@ package demo.ms.common.filter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -23,7 +25,8 @@ public class JwtSecurityFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        JwtAuthentication jwtAuthentication = new JwtAuthentication(SecurityContextHolder.getContext().getAuthentication(),jwtAccessTokenConverter);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        JwtAuthentication jwtAuthentication = new JwtAuthentication(authentication,jwtAccessTokenConverter);
         SecurityContextHolder.getContext().setAuthentication(jwtAuthentication);
         filterChain.doFilter(servletRequest,servletResponse);
     }
