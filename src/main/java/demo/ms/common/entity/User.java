@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Table(name = "users")
 @Entity
@@ -23,4 +24,18 @@ public class User implements Serializable {
     private String mail;
 
     private String password;
+
+    @Column(name="account_non_expired")
+    private boolean accountNonExpired;
+
+    @Column(name="account_non_locked")
+    private boolean accountNonLocked;
+
+    @Column(name="credentials_non_expired")
+    private boolean credentialsNonExpired;
+
+    private boolean enabled;
+
+    @OneToMany(mappedBy = "username")
+    private List<Authority> authorities;
 }
