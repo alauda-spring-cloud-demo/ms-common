@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 
-@EntityScan({"demo.ms.common.entity"})
+@EntityScan({"demo.ms.common.**.*"})
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @ConditionalOnMissingBean(ResourceServerConfig.class)
 @Import({TokenConfig.class,JwtFilterConfig.class,SwaggerConfig.class,RestTemplateConfig.class})

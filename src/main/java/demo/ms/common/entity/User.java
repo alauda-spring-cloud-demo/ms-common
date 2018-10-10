@@ -5,7 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 @Table(name = "users")
 @Entity
@@ -23,6 +23,8 @@ public class User implements Serializable {
 
     private String mail;
 
+    private String phone;
+
     private String password;
 
     @Column(name="account_non_expired")
@@ -36,6 +38,6 @@ public class User implements Serializable {
 
     private boolean enabled;
 
-    @OneToMany(mappedBy = "username")
-    private List<Authority> authorities;
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "user",orphanRemoval=true)
+    private Set<Authority> authorities;
 }

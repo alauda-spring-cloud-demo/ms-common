@@ -16,14 +16,14 @@ public class Todo implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
-    private Integer uid;
+    private Long uid;
 
     @NotNull
     private String title;
 
     private Date date;
 
-    private Integer cardId;
+    private Long cardId;
 }

@@ -15,10 +15,10 @@ public class Card implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name="project_id")
-    private Integer projectId;
+    private Long projectId;
 
     private String title;
 

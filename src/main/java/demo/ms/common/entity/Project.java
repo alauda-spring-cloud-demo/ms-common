@@ -14,13 +14,16 @@ import java.sql.Date;
 public class Project implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name="owner_id")
-    private Integer ownerId;
+    private Long ownerId;
 
     @Column(name="owner_name")
     private String ownerName;
+
+    @Column(name="owner_display_name")
+    private String ownerDisplayName;
 
     @Column(name="name")
     private String name;
