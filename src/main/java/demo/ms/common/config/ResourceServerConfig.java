@@ -24,7 +24,10 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
             .and()
             .authorizeRequests()
             .antMatchers(
+                    "/dummy/**",
+                    "/info",
                     "/health",
+                    "/hystrix.stream",
                     "/swagger-ui.html",
                     "/v2/api-docs",
                     "/swagger-resources",
